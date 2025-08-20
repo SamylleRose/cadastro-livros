@@ -83,17 +83,19 @@ const {
   align-items: center;
   min-height: 100vh;
   background-color: #f0f2f5;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  padding: 1.25rem; /* 20px */
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Fonte padrão e moderna */
+  padding: 20px;
 }
+
+/* 2. ESTILO DO CONTAINER DO FORMULÁRIO */
 .auth-container {
   width: 100%;
-  /* O PONTO PRINCIPAL: Aumentamos o tamanho MANTENDO A PROPORÇÃO */
-  max-width: 34rem; /* Equivalente a 544px (antes era 26.25rem / 420px) */
-  padding: 2.5rem; /* 40px */
+  max-width: 420px;
+  padding: 40px;
   background-color: white;
-  border-radius: 0.75rem; /* 12px */
-  box-shadow: 0 0.5rem 2rem 0 rgba(31, 38, 135, 0.15); /* Sombra mais suave */
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
   text-align: center;
 }
 .auth-header .logo {
