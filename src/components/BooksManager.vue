@@ -258,34 +258,44 @@ const deleteBook = (bookId) => {
 </script>
 
 <style scoped>
-/* ESTILOS GERAIS (DESKTOP) */
+/* ======================================================= */
+/* ESTILOS GERAIS E DO CONTAINER                           */
+/* ======================================================= */
+
+/* Define um fundo cinza claro para a página, para destacar a tabela branca, como na imagem */
 .books-container {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   width: 100%;
   max-width: 1200px;
   margin: 2rem auto;
-  padding: 0 4rem;
+  padding: 0 2rem; /* Ajuste de padding para telas menores */
   box-sizing: border-box;
+  padding: 2rem;
+  border-radius: 8px;
 }
 
 .books-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .books-header h2 {
-  font-size: 1.6rem;
-  font-weight: bold;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #343a40;
 }
 
 .add-book-btn {
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -294,54 +304,86 @@ const deleteBook = (bookId) => {
   background-color: #0056b3;
 }
 
+/* ======================================================= */
+/* ESTILO DA TABELA (BASEADO NA IMAGEM)                    */
+/* ======================================================= */
+
 .books-table-wrapper {
   background-color: white;
   border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Remove a sombra para um look mais limpo */
+  border: 1px solid #dee2e6;
+  overflow: hidden; /* Garante que o border-radius se aplique à tabela interna */
+  padding: 0; /* Remove padding do wrapper */
 }
 
 .books-table {
-  width: 90%;
-  border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse; /* Remove espaços entre as células */
 }
 
-.books-table th,
+/* Estilo do Cabeçalho (Title, Author, etc.) */
+.books-table th {
+  text-align: left;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #dee2e6;
+  color: #6c757d; /* Cor cinza, como na imagem */
+  font-weight: 500; /* Peso da fonte mais sutil */
+  font-size: 0.875rem;
+  text-transform: none; /* Remove o 'uppercase' */
+  background-color: #fff;
+}
+
 .books-table td {
   text-align: left;
-  padding: 16px;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.books-table th {
-  color: #888;
-  font-weight: 500;
-  text-transform: uppercase;
-  font-size: 0.85rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #dee2e6;
+  color: #212529;
+  vertical-align: middle;
 }
 
 .books-table tr:last-child td {
   border-bottom: none;
 }
 
+.books-table td:last-child {
+  text-align: right;
+}
+
 .action-link {
   color: #007bff;
   text-decoration: none;
-  margin-right: 1rem;
   font-weight: 500;
+  transition: color 0.2s;
 }
 
+.action-link:hover {
+  color: #0056b3;
+}
+
+/* Muda a cor do link de exclusão para azul, como na imagem */
 .delete-link {
-  color: #dc3545;
+  color: red;
+  margin-left: 0.5rem;
+}
+
+/* Adiciona o separador "|" entre os links de ação */
+.action-link:not(:last-child)::after {
+  content: '|';
+  color: #adb5bd; /* Cor cinza para o separador */
+  margin-left: 0.75rem;
+  font-weight: normal;
 }
 
 .no-books {
   text-align: center;
   padding: 2rem;
-  color: #888;
+  color: #6c757d;
 }
 
-/* ESTILOS DO MODAL */
+/* ======================================================= */
+/* ESTILOS DO MODAL (SEM ALTERAÇÕES SIGNIFICATIVAS)        */
+/* ======================================================= */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -404,105 +446,100 @@ const deleteBook = (bookId) => {
 }
 
 /* ======================================================= */
-/* CSS RESPONSIVO PARA TELAS MENORES (MOBILE)              */
+/* CSS RESPONSIVO PARA TELAS MENORES (MOBILE)              */
 /* ======================================================= */
 
 @media (max-width: 768px) {
-  /* 1. Ajustes no Container e Cabeçalho */
+  .books-container {
+    /* padding: 1rem; */
+    background-color: transparent;
+  }
 
   .books-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
-  /* 
+
   .add-book-btn {
-    width: 100%; /* Botão ocupa a largura toda */
-}
+    width: 100%;
+  }
 
-.books-table-wrapper {
-  padding: 0;
-  box-shadow: none;
-  background-color: transparent;
-}
+  .books-table-wrapper {
+    padding: 0;
+    box-shadow: none;
+    background-color: transparent;
+    border: none;
+  }
 
-/* 2. Esconde o cabeçalho original da tabela */
-.books-table thead {
-  display: none;
-}
+  .books-table thead {
+    display: none;
+  }
 
-/* 3. Transforma a tabela, linhas e células em blocos */
-.books-table,
-.books-table tbody,
-.books-table tr,
-.books-table td {
-  display: block;
-  width: 100%;
-}
+  .books-table,
+  .books-table tbody,
+  .books-table tr,
+  .books-table td {
+    display: block;
+    width: 98%;
+  }
 
-/* 4. Estiliza cada linha como um "card" */
-.books-table tr {
-  margin-bottom: 1.5rem;
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  padding: 1rem;
-}
+  .books-table tr {
+    margin-bottom: 1rem;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+  }
 
-.books-table tr:last-child {
-  margin-bottom: 0;
-}
+  .books-table tr:last-child {
+    padding-bottom: 0.5rem;
+  }
 
-/* Remove estilos de borda desnecessários da célula */
-.books-table td {
-  border: none;
-  padding-left: 0;
-  padding-right: 0;
-  padding-bottom: 1rem;
-  display: flex; /* Flexbox para alinhar label e valor */
-  justify-content: space-between; /* Empurra o label para um lado e o valor para o outro */
-  align-items: center;
-  text-align: right; /* Alinha o texto do valor à direita */
-}
+  .books-table td {
+    border: none;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+  }
 
-.books-table td:last-child {
-  padding-bottom: 0;
-}
+  .books-table td:last-child {
+    padding-bottom: 0;
+    justify-content: flex-start; /* Alinha os botões no início */
+    padding-top: 0.5rem;
+  }
 
-/* 5. Cria o "rótulo" usando o data-label */
-.books-table td::before {
-  content: attr(data-label);
-  font-weight: bold;
-  color: #333;
-  text-align: left; /* Alinha o texto do rótulo à esquerda */
-  margin-right: 1rem;
-}
+  .books-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    margin-right: 1rem;
+  }
 
-/* 6. Estilo específico para a célula de Ações */
-td[data-label='Ações'] {
-  justify-content: flex-start; /* Alinha os botões no início */
-  padding-top: 0.5rem;
-  gap: 1rem;
-}
+  /* Remove o separador "|" na versão mobile */
+  .action-link::after {
+    display: none;
+  }
 
-/* Esconde o texto "Ações:" que não é necessário */
-td[data-label='Ações']::before {
-  display: none;
-}
+  /* Ajustes no Modal para Mobile */
+  .modal-content {
+    width: 90%;
+    margin-top: -10vh;
+  }
 
-/* 7. Ajustes no Modal para Mobile */
-.modal-content {
-  width: 90%;
-  margin-top: -10vh; /* Sobe um pouco o modal */
-}
+  .modal-actions {
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+  }
 
-.modal-actions {
-  flex-direction: column-reverse; /* Botão principal fica por cima */
-  gap: 0.75rem;
-}
-
-.modal-actions button {
-  width: 100%;
+  .modal-actions button {
+    width: 100%;
+  }
 }
 </style>
