@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabaseClient' // Importe o Supabase para veri
 import AuthView from '../views/AuthView.vue'
 import PasswordReset from '../views/PasswordResetView.vue'
 import HomeView from '../views/HomeView.vue' // 1. Importe sua HomeView
-
+import BooksView from '../components/BooksManager.vue'
 const routes = [
   {
     path: '/',
@@ -26,6 +26,11 @@ const routes = [
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    path: '/livros', // O endereço no navegador (ex: seudominio.com/livros)
+    name: 'books',
+    component: BooksView, // O componente que será exibido nesta rota
   },
 ]
 

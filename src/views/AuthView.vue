@@ -2,7 +2,7 @@
   <div class="auth-wrapper">
     <div class="auth-container">
       <div class="auth-header">
-        <h2>{{ isRegisterMode ? 'Criar Conta' : 'Acessar Conta' }}</h2>
+        <h2>{{ isRegisterMode ? 'Criar Conta' : 'Login' }}</h2>
         <p>Bem-vindo ao Gerenciador de Livros 📚</p>
       </div>
 
@@ -72,13 +72,28 @@ const {
 </script>
 
 <style scoped>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  padding: 1.25rem; /* 20px */
+}
 .auth-container {
   width: 100%;
-  max-width: 420px;
-  padding: 40px;
+  /* O PONTO PRINCIPAL: Aumentamos o tamanho MANTENDO A PROPORÇÃO */
+  max-width: 34rem; /* Equivalente a 544px (antes era 26.25rem / 420px) */
+  padding: 2.5rem; /* 40px */
   background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border-radius: 0.75rem; /* 12px */
+  box-shadow: 0 0.5rem 2rem 0 rgba(31, 38, 135, 0.15); /* Sombra mais suave */
   text-align: center;
 }
 .auth-header .logo {
@@ -87,7 +102,7 @@ const {
   margin-bottom: 10px;
 }
 .auth-header h2 {
-  margin: 0 0 5px 0;
+  margin: 0 0 20px 0;
   font-size: 24px;
   color: #2c3e50;
 }
@@ -134,8 +149,9 @@ const {
   font-size: 14px;
 }
 .forgot-password a {
-  color: #2980b9;
+  color: #42b983;
   text-decoration: none;
+  font-weight: 600;
 }
 .submit-btn {
   width: 100%;
@@ -165,5 +181,14 @@ const {
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
+}
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 25px; /* Reduz o preenchimento interno em telas pequenas */
+  }
+
+  .auth-header h2 {
+    font-size: 22px; /* Reduz um pouco o título */
+  }
 }
 </style>
