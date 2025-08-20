@@ -35,7 +35,7 @@ import { supabase } from '../lib/supabaseClient'
 const email = ref('')
 const loading = ref(false)
 const message = ref<string | null>(null)
-// Ajustado para corresponder às classes CSS: 'success' foi mapeado para a classe padrão do feedback
+
 const messageType = ref<'success' | 'error'>('success')
 
 const handlePasswordReset = async () => {
@@ -65,7 +65,6 @@ const handlePasswordReset = async () => {
 </script>
 
 <style scoped>
-/* 3. CSS COMPLETAMENTE SUBSTITUÍDO pelo estilo do AuthView.vue */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -77,12 +76,10 @@ const handlePasswordReset = async () => {
   align-items: center;
   min-height: 100vh;
   background-color: #f0f2f5;
-  font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Fonte padrão e moderna */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   padding: 20px;
 }
 
-/* 2. ESTILO DO CONTAINER DO FORMULÁRIO */
 .auth-container {
   width: 100%;
   max-width: 420px;
@@ -93,7 +90,7 @@ const handlePasswordReset = async () => {
   text-align: center;
 }
 .auth-header h2 {
-  margin: 0 0 8px 0; /* Ajuste fino na margem para subtítulo */
+  margin: 0 0 8px 0;
   font-size: 24px;
   color: #2c3e50;
   font-weight: 700;
@@ -156,16 +153,16 @@ const handlePasswordReset = async () => {
   cursor: not-allowed;
 }
 .back-to-login {
-  /* Estilo para o link 'Voltar para o Login' */
   margin-top: 30px;
   color: #7f8c8d;
 }
 .back-to-login a {
-  color: #42b983; /* Mesma cor dos outros links */
+  color: #42b983;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
 }
+
 @media (max-width: 480px) {
   .auth-container {
     padding: 25px;

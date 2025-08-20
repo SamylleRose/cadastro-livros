@@ -162,15 +162,9 @@
 
 import { ref, onMounted } from 'vue'
 
-// REMOVEMOS a importação do 'axios', pois não vamos usá-lo agora.
-
-// --- 1. DADOS MOCADOS (MOCK DATA) ---
-// Esta é nossa "base de dados" temporária no front-end.
 const books = ref([])
 
-// Esta função simula a busca inicial de dados.
 const fetchBooks = () => {
-  // Vamos preencher nossa lista com alguns exemplos quando a página carregar.
   books.value = [
     {
       id: 1,
@@ -196,12 +190,10 @@ const fetchBooks = () => {
   ]
 }
 
-// onMounted executa a função fetchBooks assim que o componente é carregado.
 onMounted(() => {
   fetchBooks()
 })
 
-// --- 2. LÓGICA DO MODAL E DO FORMULÁRIO (continua igual) ---
 const isModalVisible = ref(false)
 const newBook = ref({
   title: '',
@@ -219,38 +211,28 @@ const closeAddBookModal = () => {
   isModalVisible.value = false
 }
 
-// --- 3. FUNÇÕES MODIFICADAS (SEM BACKEND) ---
-
-// Função para ADICIONAR um novo livro (agora salva só na lista local)
 const addBook = () => {
-  // Verificação simples para garantir que o título não está vazio
   if (!newBook.value.title) {
     alert('O título é obrigatório!')
     return
   }
 
-  // Como não temos backend, precisamos criar um ID único manualmente.
-  // Usar a data atual em milissegundos é uma forma simples de fazer isso.
   const bookToAdd = {
     ...newBook.value,
     id: Date.now(),
   }
 
-  // Adicionamos o novo livro diretamente ao nosso array 'books'.
   books.value.push(bookToAdd)
 
-  // Limpamos o formulário e fechamos o modal.
   closeAddBookModal()
   alert('Livro adicionado (temporariamente) com sucesso!')
 }
 
-// Função para DELETAR um livro (agora remove só da lista local)
 const deleteBook = (bookId) => {
   if (!confirm('Tem certeza que deseja excluir este livro?')) {
     return
   }
 
-  // Usamos .filter() para criar um novo array sem o livro com o ID correspondente.
   books.value = books.value.filter((book) => book.id !== bookId)
 
   alert('Livro excluído (temporariamente) com sucesso!')
@@ -258,18 +240,13 @@ const deleteBook = (bookId) => {
 </script>
 
 <style scoped>
-/* ======================================================= */
-/* ESTILOS GERAIS E DO CONTAINER                           */
-/* ======================================================= */
-
-/* Define um fundo cinza claro para a página, para destacar a tabela branca, como na imagem */
 .books-container {
   font-family:
     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   width: 100%;
   max-width: 1200px;
   margin: 2rem auto;
-  padding: 0 2rem; /* Ajuste de padding para telas menores */
+  padding: 0 2rem;
   box-sizing: border-box;
   padding: 2rem;
   border-radius: 8px;
@@ -304,33 +281,28 @@ const deleteBook = (bookId) => {
   background-color: #0056b3;
 }
 
-/* ======================================================= */
-/* ESTILO DA TABELA (BASEADO NA IMAGEM)                    */
-/* ======================================================= */
-
 .books-table-wrapper {
   background-color: white;
   border-radius: 8px;
-  /* Remove a sombra para um look mais limpo */
+
   border: 1px solid #dee2e6;
-  overflow: hidden; /* Garante que o border-radius se aplique à tabela interna */
-  padding: 0; /* Remove padding do wrapper */
+  overflow: hidden;
+  padding: 0;
 }
 
 .books-table {
   width: 100%;
-  border-collapse: collapse; /* Remove espaços entre as células */
+  border-collapse: collapse;
 }
 
-/* Estilo do Cabeçalho (Title, Author, etc.) */
 .books-table th {
   text-align: left;
   padding: 1rem 1.5rem;
   border-bottom: 1px solid #dee2e6;
-  color: #6c757d; /* Cor cinza, como na imagem */
-  font-weight: 500; /* Peso da fonte mais sutil */
+  color: #6c757d;
+  font-weight: 500;
   font-size: 0.875rem;
-  text-transform: none; /* Remove o 'uppercase' */
+  text-transform: none;
   background-color: #fff;
 }
 
@@ -361,16 +333,14 @@ const deleteBook = (bookId) => {
   color: #0056b3;
 }
 
-/* Muda a cor do link de exclusão para azul, como na imagem */
 .delete-link {
   color: red;
   margin-left: 0.5rem;
 }
 
-/* Adiciona o separador "|" entre os links de ação */
 .action-link:not(:last-child)::after {
   content: '|';
-  color: #adb5bd; /* Cor cinza para o separador */
+  color: #adb5bd;
   margin-left: 0.75rem;
   font-weight: normal;
 }
@@ -381,9 +351,6 @@ const deleteBook = (bookId) => {
   color: #6c757d;
 }
 
-/* ======================================================= */
-/* ESTILOS DO MODAL (SEM ALTERAÇÕES SIGNIFICATIVAS)        */
-/* ======================================================= */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -445,13 +412,8 @@ const deleteBook = (bookId) => {
   color: white;
 }
 
-/* ======================================================= */
-/* CSS RESPONSIVO PARA TELAS MENORES (MOBILE)              */
-/* ======================================================= */
-
 @media (max-width: 768px) {
   .books-container {
-    /* padding: 1rem; */
     background-color: transparent;
   }
 
@@ -510,7 +472,7 @@ const deleteBook = (bookId) => {
 
   .books-table td:last-child {
     padding-bottom: 0;
-    justify-content: flex-start; /* Alinha os botões no início */
+    justify-content: flex-start;
     padding-top: 0.5rem;
   }
 
@@ -522,12 +484,10 @@ const deleteBook = (bookId) => {
     margin-right: 1rem;
   }
 
-  /* Remove o separador "|" na versão mobile */
   .action-link::after {
     display: none;
   }
 
-  /* Ajustes no Modal para Mobile */
   .modal-content {
     width: 90%;
     margin-top: -10vh;

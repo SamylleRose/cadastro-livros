@@ -56,8 +56,6 @@
 <script setup>
 import { useAuth } from '../composables/useAuth'
 
-// Chama a função para obter acesso a toda a lógica e estado
-// A desestruturação nos permite pegar cada variável e função retornada pelo useAuth.
 const {
   isRegisterMode,
   email,
@@ -88,7 +86,6 @@ const {
   padding: 20px;
 }
 
-/* 2. ESTILO DO CONTAINER DO FORMULÁRIO */
 .auth-container {
   width: 100%;
   max-width: 420px;
@@ -184,13 +181,14 @@ const {
   text-decoration: none;
   cursor: pointer;
 }
+
 @media (max-width: 480px) {
   .auth-container {
-    padding: 25px; /* Reduz o preenchimento interno em telas pequenas */
+    padding: 25px;
   }
 
   .auth-header h2 {
-    font-size: 22px; /* Reduz um pouco o título */
+    font-size: 22px;
   }
 }
 </style>

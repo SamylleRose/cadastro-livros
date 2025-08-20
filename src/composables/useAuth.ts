@@ -6,7 +6,6 @@ import { supabase } from '../lib/supabaseClient'
 export function useAuth() {
   const router = useRouter()
 
-  // --- ESTADO ---
   const isRegisterMode = ref(false)
   const email = ref('')
   const password = ref('')
@@ -16,9 +15,6 @@ export function useAuth() {
   const feedbackMessage = ref<string | null>(null)
   const isFeedbackError = ref(false)
 
-  // --- MÉTODOS ---
-
-  // Cadastro
   const handleRegister = async () => {
     if (password.value !== passwordConfirm.value) {
       isFeedbackError.value = true
@@ -35,7 +31,6 @@ export function useAuth() {
         password: password.value,
       })
 
-      // Se o e-mail já existe, o Supabase retorna identities vazio
       if (data?.user?.identities?.length === 0) {
         isFeedbackError.value = true
         feedbackMessage.value = 'Este e-mail já está cadastrado. Faça login ou use outro e-mail.'
@@ -58,7 +53,6 @@ export function useAuth() {
     }
   }
 
-  // Login
   const handleLogin = async () => {
     try {
       loading.value = true
@@ -73,7 +67,6 @@ export function useAuth() {
       isFeedbackError.value = false
       feedbackMessage.value = 'Login realizado com sucesso! Redirecionando...'
 
-      //redirecionar após login
       await router.push('/home')
     } catch (err: unknown) {
       isFeedbackError.value = true
@@ -93,7 +86,6 @@ export function useAuth() {
     }
   }
 
-  // Logout
   const handleLogout = async () => {
     try {
       const { error } = await supabase.auth.signOut()
@@ -104,7 +96,6 @@ export function useAuth() {
     }
   }
 
-  // Decide login ou register
   const handleAuth = () => {
     if (isRegisterMode.value) {
       handleRegister()
@@ -113,7 +104,6 @@ export function useAuth() {
     }
   }
 
-  // Alternar modo
   const toggleMode = () => {
     isRegisterMode.value = !isRegisterMode.value
     email.value = ''
