@@ -18,7 +18,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.55.0",
     "axios": "^1.11.0",
-    "vue": "^3.5.18",
+    "vue": "^3.5.19",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {

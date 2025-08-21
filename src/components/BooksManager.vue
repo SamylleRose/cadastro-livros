@@ -17,47 +17,45 @@
         </thead>
         <tbody>
           <tr v-for="book in books" :key="book.id">
-            <td data-label="Título">{{ book.title }}</td>
-            <td data-label="Autor">{{ book.author }}</td>
-            <td data-label="Páginas">{{ book.pages }}</td>
-            <td data-label="Ano">{{ book.publicationYear }}</td>
+            <td data-label="Título">{{ book.titulo }}</td>
+            <td data-label="Autor">{{ book.autor }}</td>
+            <td data-label="Páginas">{{ book.paginas }}</td>
+            <td data-label="Ano">{{ book.ano }}</td>
             <td data-label="Ações">
-              <a href="#" class="action-link">Editar</a>
+              <a @click.prevent="showEditModal(book)" href="#" class="action-link">Editar</a>
               <a @click.prevent="deleteBook(book.id)" href="#" class="action-link delete-link"
                 >Excluir</a
               >
             </td>
           </tr>
-
           <tr v-if="books.length === 0">
             <td colspan="5" class="no-books">Nenhum livro cadastrado ainda.</td>
           </tr>
         </tbody>
       </table>
     </div>
-
-    <div v-if="isModalVisible" class="modal-overlay" @click.self="closeAddBookModal">
+    <div v-if="isModalVisible" class="modal-overlay" @click.self="closeModal">
       <div class="modal-content">
-        <h2>Adicionar Novo Livro</h2>
-        <form @submit.prevent="addBook">
+        <h2>{{ isEditMode ? 'Editar Livro' : 'Adicionar Novo Livro' }}</h2>
+        <form @submit.prevent="handleSubmit">
           <div class="form-group">
             <label for="title">Título do Livro</label>
-            <input type="text" id="title" v-model="newBook.title" required />
+            <input type="text" id="title" v-model="formData.titulo" required />
           </div>
           <div class="form-group">
             <label for="author">Autor Principal</label>
-            <input type="text" id="author" v-model="newBook.author" required />
+            <input type="text" id="author" v-model="formData.autor" required />
           </div>
           <div class="form-group">
             <label for="pages">Quantidade de Páginas</label>
-            <input type="number" id="pages" v-model="newBook.pages" required />
+            <input type="number" id="pages" v-model="formData.paginas" required />
           </div>
           <div class="form-group">
             <label for="year">Ano de Publicação</label>
-            <input type="number" id="year" v-model="newBook.publicationYear" required />
+            <input type="number" id="year" v-model="formData.ano" required />
           </div>
           <div class="modal-actions">
-            <button type="button" @click="closeAddBookModal" class="btn-cancel">Cancelar</button>
+            <button type="button" @click="closeModal" class="btn-cancel">Cancelar</button>
             <button type="submit" class="btn-save">Salvar</button>
           </div>
         </form>
@@ -66,73 +64,141 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+// ✨ Note o "lang='ts'"
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import api from '@/api' // Importando nossa instância do Axios
+import type { Book, BookForm } from '@/types' // ✨ Importando os tipos
 
-const books = ref([])
+// ✨ Refs com tipagem forte
+const books = ref<Book[]>([])
+const isModalVisible = ref<boolean>(false)
+const isEditMode = ref<boolean>(false)
+const editingBookId = ref<number | null>(null)
 
-const fetchBooks = async () => {
+// ✨ O estado inicial do formulário deve corresponder ao tipo BookForm
+const formData = ref<BookForm>({
+  titulo: '',
+  autor: '',
+  paginas: null,
+  ano: null,
+})
+
+// --- Funções Auxiliares ---
+
+const resetForm = (): void => {
+  formData.value = { titulo: '', autor: '', paginas: null, ano: null }
+  isEditMode.value = false
+  editingBookId.value = null
+}
+
+const closeModal = (): void => {
+  isModalVisible.value = false
+  resetForm()
+}
+
+// --- Funções CRUD ---
+
+// R - Read (Listar Livros)
+const fetchBooks = async (): Promise<void> => {
   try {
-    const response = await axios.get('http://localhost:3000/api/books')
-
+    const response = await api.get<Book[]>('/livros') // ✨ Tipando a resposta da API
     books.value = response.data
   } catch (error) {
     console.error('Erro ao buscar os livros:', error)
+    alert('Não foi possível carregar os livros.')
   }
 }
 
-const deleteBook = async (bookId) => {
-  if (!confirm('Tem certeza que deseja excluir este livro?')) {
-    return
-  }
-
+// C - Create (Adicionar Livro)
+const addBook = async (): Promise<void> => {
   try {
-    await axios.delete(`http://localhost:3000/api/books/${bookId}`)
-
-    books.value = books.value.filter((book) => book.id !== bookId)
-
-    alert('Livro excluído com sucesso!')
-  } catch (error) {
-    console.error('Erro ao excluir o livro:', error)
-
-    alert('Falha ao excluir o livro. Tente novamente.')
-  }
-}
-
-const isModalVisible = ref(false)
-
-const newBook = ref({
-  title: '',
-  author: '',
-  pages: null,
-  publicationYear: null,
-})
-
-const showAddBookModal = () => {
-  newBook.value = { title: '', author: '', pages: null, publicationYear: null }
-  isModalVisible.value = true
-}
-
-const closeAddBookModal = () => {
-  isModalVisible.value = false
-}
-
-const addBook = async () => {
-  try {
-    const response = await axios.post('http://localhost:3000/api/books', newBook.value)
-
-    books.value.push(response.data)
-
-    closeAddBookModal()
+    const response = await api.post('/livros', formData.value)
+    books.value.push(response.data.data[0])
+    closeModal()
     alert('Livro adicionado com sucesso!')
   } catch (error) {
     console.error('Erro ao adicionar livro:', error)
-
-    alert('Falha ao adicionar o livro. Verifique os dados.')
+    alert('Falha ao adicionar o livro.')
   }
 }
 
+// U - Update (Editar Livro)
+const updateBook = async (): Promise<void> => {
+  if (!editingBookId.value) return // Guarda de segurança
+
+  try {
+    await api.put(`/livros/${editingBookId.value}`, formData.value)
+
+    const index = books.value.findIndex((book) => book.id === editingBookId.value)
+    if (index !== -1) {
+      // Atualiza a lista local com os novos dados do formulário
+      books.value[index] = { id: editingBookId.value, ...formData.value } as Book
+    }
+
+    closeModal()
+    alert('Livro atualizado com sucesso!')
+  } catch (error) {
+    console.error('Erro ao atualizar livro:', error)
+    alert('Falha ao atualizar o livro.')
+  }
+}
+
+// D - Delete (Excluir Livro)
+const deleteBook = async (bookId: number): Promise<void> => {
+  // ✨ Parâmetro tipado
+  if (!confirm('Tem certeza que deseja excluir este livro?')) return
+  try {
+    await api.delete(`/livros/${bookId}`)
+    books.value = books.value.filter((book) => book.id !== bookId)
+    alert('Livro excluído com sucesso!')
+  } catch (error) {
+    console.error('Erro ao excluir o livro:', error)
+    alert('Falha ao excluir o livro.')
+  }
+}
+
+// --- Funções do Modal ---
+
+const showAddBookModal = (): void => {
+  resetForm()
+  isModalVisible.value = true
+}
+
+const showEditModal = (book: Book): void => {
+  // ✨ Parâmetro tipado
+  isEditMode.value = true
+  editingBookId.value = book.id
+
+  formData.value = {
+    titulo: book.titulo,
+    autor: book.autor,
+    paginas: book.paginas,
+    ano: book.ano,
+  }
+  isModalVisible.value = true
+}
+
+// Decide qual função chamar ao submeter o formulário
+const handleSubmit = (): void => {
+  // ✨ VALIDAÇÃO ANTES DE ENVIAR ✨
+  const { titulo, autor, paginas, ano } = formData.value
+
+  // Verifica se algum dos campos é nulo, indefinido ou vazio.
+  if (!titulo || !autor || !paginas || !ano) {
+    alert('Por favor, preencha todos os campos do formulário.')
+    return // 🛑 Impede o envio da requisição se a validação falhar
+  }
+
+  // Se a validação passar, o código continua normalmente
+  if (isEditMode.value) {
+    updateBook()
+  } else {
+    addBook()
+  }
+}
+
+// Hook do ciclo de vida do Vue
 onMounted(() => {
   fetchBooks()
 })
