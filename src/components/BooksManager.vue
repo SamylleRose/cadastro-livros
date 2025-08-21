@@ -67,134 +67,41 @@
 </template>
 
 <script setup>
-// import { ref, onMounted } from 'vue'
-// import axios from 'axios'
-
-// // 1. ESTADO: Criamos um "lugar" para guardar a lista de livros.
-// // A função ref() torna a variável reativa, ou seja, se o valor dela mudar,
-// // o Vue automaticamente atualiza a tela.
-// const books = ref([])
-
-// // 2. BUSCANDO OS DADOS DO BACKEND:
-// // A função 'fetchBooks' vai fazer a chamada para a sua API.
-// const fetchBooks = async () => {
-//   try {
-//     // ATENÇÃO: Troque a URL pela URL real da sua API!
-//     const response = await axios.get('http://localhost:3000/api/books')
-//     // Guardamos a lista de livros que veio da API na nossa variável reativa.
-//     books.value = response.data
-//   } catch (error) {
-//     console.error('Erro ao buscar os livros:', error)
-//     // Aqui você pode mostrar uma mensagem de erro para o usuário.
-//   }
-// }
-
-// // ... dentro de <script setup>
-
-// const deleteBook = async (bookId) => {
-//   // Confirmação para evitar exclusões acidentais
-//   if (!confirm('Tem certeza que deseja excluir este livro?')) {
-//     return
-//   }
-
-//   try {
-//     // ATENÇÃO: Use a URL correta do seu back-end, passando o ID
-//     await axios.delete(`http://localhost:3000/api/books/${bookId}`)
-//     // Se a exclusão no back-end deu certo, removemos o livro da nossa
-//     // lista local (books.value) para atualizar a tela sem precisar recarregar.
-//     books.value = books.value.filter((book) => book.id !== bookId)
-//     // Aqui você pode mostrar uma mensagem de sucesso.
-//     alert('Livro excluído com sucesso!')
-//   } catch (error) {
-//     console.error('Erro ao excluir o livro:', error)
-//     // Aqui você pode mostrar uma mensagem de erro.
-//     alert('Falha ao excluir o livro. Tente novamente.')
-//   }
-// }
-
-// const isModalVisible = ref(false)
-
-// // Estado para guardar os dados do novo livro que está sendo preenchido no formulário
-// const newBook = ref({
-//   title: '',
-//   author: '',
-//   pages: null,
-//   publicationYear: null,
-// })
-
-// const showAddBookModal = () => {
-//   // Reseta o formulário antes de abrir
-//   newBook.value = { title: '', author: '', pages: null, publicationYear: null }
-//   isModalVisible.value = true
-// }
-
-// const closeAddBookModal = () => {
-//   isModalVisible.value = false
-// }
-
-// const addBook = async () => {
-//   try {
-//     // ATENÇÃO: URL da sua API para CRIAR um livro (geralmente é POST)
-//     const response = await axios.post('http://localhost:3000/api/books', newBook.value)
-
-//     // Adiciona o livro recém-criado (que o backend retorna) na nossa lista
-//     books.value.push(response.data)
-
-//     // Fecha o modal e mostra mensagem de sucesso
-//     closeAddBookModal()
-//     alert('Livro adicionado com sucesso!')
-//   } catch (error) {
-//     console.error('Erro ao adicionar livro:', error)
-//     // Aqui você pode ler as 'Mensagens de erro/sucesso' do seu backend
-//     // e mostrá-las para o usuário de forma mais elegante.
-//     alert('Falha ao adicionar o livro. Verifique os dados.')
-//   }
-// }
-// // 3. CICLO DE VIDA:
-// // 'onMounted' é uma função do Vue que executa um código assim que o
-// // componente é "montado" (carregado) na tela. É o lugar perfeito
-// // para buscar os dados iniciais.
-// onMounted(() => {
-//   fetchBooks()
-// })
-
-//=============================================================================================
-
 import { ref, onMounted } from 'vue'
+import axios from 'axios'
 
 const books = ref([])
 
-const fetchBooks = () => {
-  books.value = [
-    {
-      id: 1,
-      title: 'O Senhor dos Anéis',
-      author: 'J.R.R. Tolkien',
-      pages: 1200,
-      publicationYear: 1954,
-    },
-    {
-      id: 2,
-      title: 'O Guia do Mochileiro das Galáxias',
-      author: 'Douglas Adams',
-      pages: 208,
-      publicationYear: 1979,
-    },
-    {
-      id: 3,
-      title: 'Duna',
-      author: 'Frank Herbert',
-      pages: 688,
-      publicationYear: 1965,
-    },
-  ]
+const fetchBooks = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/books')
+
+    books.value = response.data
+  } catch (error) {
+    console.error('Erro ao buscar os livros:', error)
+  }
 }
 
-onMounted(() => {
-  fetchBooks()
-})
+const deleteBook = async (bookId) => {
+  if (!confirm('Tem certeza que deseja excluir este livro?')) {
+    return
+  }
+
+  try {
+    await axios.delete(`http://localhost:3000/api/books/${bookId}`)
+
+    books.value = books.value.filter((book) => book.id !== bookId)
+
+    alert('Livro excluído com sucesso!')
+  } catch (error) {
+    console.error('Erro ao excluir o livro:', error)
+
+    alert('Falha ao excluir o livro. Tente novamente.')
+  }
+}
 
 const isModalVisible = ref(false)
+
 const newBook = ref({
   title: '',
   author: '',
@@ -211,32 +118,24 @@ const closeAddBookModal = () => {
   isModalVisible.value = false
 }
 
-const addBook = () => {
-  if (!newBook.value.title) {
-    alert('O título é obrigatório!')
-    return
+const addBook = async () => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/books', newBook.value)
+
+    books.value.push(response.data)
+
+    closeAddBookModal()
+    alert('Livro adicionado com sucesso!')
+  } catch (error) {
+    console.error('Erro ao adicionar livro:', error)
+
+    alert('Falha ao adicionar o livro. Verifique os dados.')
   }
-
-  const bookToAdd = {
-    ...newBook.value,
-    id: Date.now(),
-  }
-
-  books.value.push(bookToAdd)
-
-  closeAddBookModal()
-  alert('Livro adicionado (temporariamente) com sucesso!')
 }
 
-const deleteBook = (bookId) => {
-  if (!confirm('Tem certeza que deseja excluir este livro?')) {
-    return
-  }
-
-  books.value = books.value.filter((book) => book.id !== bookId)
-
-  alert('Livro excluído (temporariamente) com sucesso!')
-}
+onMounted(() => {
+  fetchBooks()
+})
 </script>
 
 <style scoped>
