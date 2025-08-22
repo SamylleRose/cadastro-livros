@@ -16,6 +16,26 @@ Este é o **frontend** do sistema de Cadastro de Livros, desenvolvido em **Vue 3
 - O projeto utiliza o **Supabase Auth** para login e gerenciamento de sessão.
 - As requisições HTTP feitas pelo Axios incluem automaticamente o **token JWT** do usuário autenticado.
 
+## API Backend
+
+Este projeto consome uma API backend para realizar operações de CRUD (Criar, Ler, Atualizar e Excluir) relacionadas aos livros. A API está configurada para gerenciar os dados de forma eficiente e segura.
+
+ndpoints Principais
+
+- GET /api/books: Retorna a lista de livros cadastrados.
+- POST /api/books: Adiciona um novo livro.
+- PUT /api/books/:id: Atualiza os dados de um livro existente.
+- DELETE /api/books/:id: Exclui um livro pelo ID.
+
+### Configuração da API
+
+Certifique-se de que o backend está rodando na URL correta. Por padrão, o frontend está configurado para acessar o backend em http://localhost:3000. Caso utilize outra URL, atualize as chamadas na configuração do Axios.
+
+### Link para o Backend
+
+O código-fonte do backend pode ser encontrado no seguinte repositório:
+![Backend](https://github.com/anny-nl/SD-Projeto_livros)
+
 ## Estrutura do Projeto
 
 Abaixo está a estrutura de pastas e arquivos do projeto:
