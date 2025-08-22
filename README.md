@@ -92,8 +92,8 @@ npm run lint
 
 ### Modal de Adicionar Livro
 
-![Criar Livro](./src/assets/editar_livro.png)
+![Criar Livro](./src/assets/criar_livro.png)
 
 ### Modal de Editar Livro
 
-![Editar Livro](./src/assets/criar_livro.png)
+![Editar Livro](./src/assets/editar_livro.png)
