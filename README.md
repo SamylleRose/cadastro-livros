@@ -80,16 +80,16 @@ npm run lint
 
 ### Tela de Login
 
-![Login](login.png)
+![Login](./src/assets/login.png)
 
 ### Tela de Cadastro
 
-![Criar Conta](criar_conta.png)
+![Criar Conta](./src/assets/criar_conta.png)
 
 ### Tela Inicial
 
-![Home](home.png)
+![Home](./src/assets/home.png)
 
 ### Modal de Adicionar Livros
 
-![Criar Livros](criar_livros.png)
+![Criar Livros](./src/assets/criar_livros.png)
