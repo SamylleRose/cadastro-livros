@@ -17,6 +17,7 @@ Este é o **frontend** do sistema de Cadastro de Livros, desenvolvido em **Vue 3
 - As requisições HTTP feitas pelo Axios incluem automaticamente o **token JWT** do usuário autenticado.  
 
 ## Integração com Backend  
+[Repósitorio backend](https://github.com/anny-nl/SD-Projeto_livros)
 
 - O frontend consome uma API hospedada em `http://localhost:3000` (ou outra definida no arquivo `.env`).  
 - Todas as operações (cadastro, listagem, etc.) passam pela camada de autenticação.  
