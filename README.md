@@ -40,9 +40,6 @@ npm run dev
 npm run build
 ```
 
-## SEGUE O LINK DO VÍDEO
--
-
 
 
 ### Lint with [ESLint](https://eslint.org/)
@@ -50,3 +47,6 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## SEGUE O LINK DO VÍDEO
+-
