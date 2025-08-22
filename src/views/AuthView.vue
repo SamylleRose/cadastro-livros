@@ -82,7 +82,7 @@ const {
   min-height: 100vh;
   background-color: #f0f2f5;
   font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Fonte padrão e moderna */
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
   padding: 20px;
 }
 
