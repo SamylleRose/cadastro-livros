@@ -1,19 +1,26 @@
-# cadastro-livros
+# Cadastro de Livros - Frontend  
 
-Este projeto utiliza Vue 3 com suporte a TypeScript para garantir uma base sólida e escalável.
-Abaixo estão as recomendações para configurar seu ambiente de desenvolvimento e garantir que o suporte de tipos funcione corretamente.
+Este é o **frontend** do sistema de Cadastro de Livros, desenvolvido em **Vue 3 com TypeScript**, que consome uma API backend e utiliza o **Supabase** para autenticação.  
 
-## Recommended IDE Setup
+## Tecnologias Utilizadas  
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Vue 3** → framework principal para construção da interface  
+- **TypeScript** → tipagem estática para maior segurança no desenvolvimento  
+- **Vue Router** → gerenciamento de rotas e navegação entre páginas  
+- **Axios** → consumo da API backend  
+- **Supabase** → autenticação de usuários e gerenciamento de sessão  
+- **ESLint + Prettier** → padronização e qualidade de código  
 
-## Type Support for `.vue` Imports in TS
+## Autenticação  
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- O projeto utiliza o **Supabase Auth** para login e gerenciamento de sessão.  
+- As requisições HTTP feitas pelo Axios incluem automaticamente o **token JWT** do usuário autenticado.  
 
-## Customize configuration
+## Integração com Backend  
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- O frontend consome uma API hospedada em `http://localhost:3000` (ou outra definida no arquivo `.env`).  
+- Todas as operações (cadastro, listagem, etc.) passam pela camada de autenticação.  
+
 
 ## Project Setup
 
