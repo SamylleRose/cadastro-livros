@@ -65,18 +65,16 @@
 </template>
 
 <script setup lang="ts">
-// ✨ Note o "lang='ts'"
-import { ref, onMounted } from 'vue'
-import api from '@/api' // Importando nossa instância do Axios
-import type { Book, BookForm } from '@/types' // ✨ Importando os tipos
 
-// ✨ Refs com tipagem forte
+import { ref, onMounted } from 'vue'
+import api from '@/api' 
+import type { Book, BookForm } from '@/types' 
+
 const books = ref<Book[]>([])
 const isModalVisible = ref<boolean>(false)
 const isEditMode = ref<boolean>(false)
 const editingBookId = ref<number | null>(null)
 
-// ✨ O estado inicial do formulário deve corresponder ao tipo BookForm
 const formData = ref<BookForm>({
   titulo: '',
   autor: '',
@@ -84,7 +82,7 @@ const formData = ref<BookForm>({
   ano: null,
 })
 
-// --- Funções Auxiliares ---
+
 
 const resetForm = (): void => {
   formData.value = { titulo: '', autor: '', paginas: null, ano: null }
@@ -97,12 +95,10 @@ const closeModal = (): void => {
   resetForm()
 }
 
-// --- Funções CRUD ---
 
-// R - Read (Listar Livros)
 const fetchBooks = async (): Promise<void> => {
   try {
-    const response = await api.get<Book[]>('/livros') // ✨ Tipando a resposta da API
+    const response = await api.get<Book[]>('/livros') 
     books.value = response.data
   } catch (error) {
     console.error('Erro ao buscar os livros:', error)
@@ -110,7 +106,7 @@ const fetchBooks = async (): Promise<void> => {
   }
 }
 
-// C - Create (Adicionar Livro)
+
 const addBook = async (): Promise<void> => {
   try {
     const response = await api.post('/livros', formData.value)
@@ -123,16 +119,15 @@ const addBook = async (): Promise<void> => {
   }
 }
 
-// U - Update (Editar Livro)
 const updateBook = async (): Promise<void> => {
-  if (!editingBookId.value) return // Guarda de segurança
+  if (!editingBookId.value) return 
 
   try {
     await api.put(`/livros/${editingBookId.value}`, formData.value)
 
     const index = books.value.findIndex((book) => book.id === editingBookId.value)
     if (index !== -1) {
-      // Atualiza a lista local com os novos dados do formulário
+     
       books.value[index] = { id: editingBookId.value, ...formData.value } as Book
     }
 
@@ -144,9 +139,9 @@ const updateBook = async (): Promise<void> => {
   }
 }
 
-// D - Delete (Excluir Livro)
+
 const deleteBook = async (bookId: number): Promise<void> => {
-  // ✨ Parâmetro tipado
+  
   if (!confirm('Tem certeza que deseja excluir este livro?')) return
   try {
     await api.delete(`/livros/${bookId}`)
@@ -158,7 +153,7 @@ const deleteBook = async (bookId: number): Promise<void> => {
   }
 }
 
-// --- Funções do Modal ---
+
 
 const showAddBookModal = (): void => {
   resetForm()
@@ -166,7 +161,7 @@ const showAddBookModal = (): void => {
 }
 
 const showEditModal = (book: Book): void => {
-  // ✨ Parâmetro tipado
+ 
   isEditMode.value = true
   editingBookId.value = book.id
 
@@ -179,18 +174,18 @@ const showEditModal = (book: Book): void => {
   isModalVisible.value = true
 }
 
-// Decide qual função chamar ao submeter o formulário
+
 const handleSubmit = (): void => {
-  // ✨ VALIDAÇÃO ANTES DE ENVIAR ✨
+  
   const { titulo, autor, paginas, ano } = formData.value
 
-  // Verifica se algum dos campos é nulo, indefinido ou vazio.
+ 
   if (!titulo || !autor || !paginas || !ano) {
     alert('Por favor, preencha todos os campos do formulário.')
-    return // 🛑 Impede o envio da requisição se a validação falhar
+    return 
   }
 
-  // Se a validação passar, o código continua normalmente
+  
   if (isEditMode.value) {
     updateBook()
   } else {
@@ -198,7 +193,7 @@ const handleSubmit = (): void => {
   }
 }
 
-// Hook do ciclo de vida do Vue
+
 onMounted(() => {
   fetchBooks()
 })
