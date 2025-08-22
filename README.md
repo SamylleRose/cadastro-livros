@@ -90,6 +90,10 @@ npm run lint
 
 ![Home](./src/assets/home.png)
 
-### Modal de Adicionar Livros
+### Modal de Adicionar Livro
 
-![Criar Livros](./src/assets/criar_livros.png)
+![Criar Livro](./src/assets/editar_livro.png)
+
+### Modal de Editar Livro
+
+![Editar Livro](./src/assets/criar_livro.png)
