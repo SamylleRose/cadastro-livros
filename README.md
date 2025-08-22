@@ -1,6 +1,7 @@
 # cadastro-livros
 
-Este projeto utiliza Vue 3 com suporte a TypeScript para garantir uma base sólida e escalável. Abaixo estão as recomendações para configurar seu ambiente de desenvolvimento e garantir que o suporte de tipos funcione corretamente.
+Este projeto utiliza Vue 3 com suporte a TypeScript para garantir uma base sólida e escalável.
+Abaixo estão as recomendações para configurar seu ambiente de desenvolvimento e garantir que o suporte de tipos funcione corretamente.
 
 ## Recommended IDE Setup
 
