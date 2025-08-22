@@ -34,7 +34,7 @@ Certifique-se de que o backend está rodando na URL correta. Por padrão, o fron
 ### Link para o Backend
 
 O código-fonte do backend pode ser encontrado no seguinte repositório:
-![Backend](https://github.com/anny-nl/SD-Projeto_livros)
+[Backend](https://github.com/anny-nl/SD-Projeto_livros)
 
 ## Estrutura do Projeto
 
